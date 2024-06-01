@@ -18,6 +18,12 @@ function invio(event){
     }
 }
 
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
 function dopoRitardo() {
     window.location.href = 'main.html';
 }
@@ -66,7 +72,26 @@ function verifica(){
     for(var i=0;i<persona.length;i++){
         if(codice==persona[i].codice && persona[i].mangiato==false){
             verde(persona[i].nome);
-            document.cookie = "username="+persona[i].nome+"; expires=Thu, 18 Dec 2024 12:00:00 UTC";
+
+            // Parsing del cookie JSON
+            let personeCookie = getCookie('username');
+            let persone = [];
+
+            if (personeCookie) {
+                try {
+                    persone = JSON.parse(personeCookie);
+                } catch (e) {
+                    console.error('Errore nel parsing del cookie JSON:', e);
+                }
+            }
+
+            persone.push({
+                nome: persona[i].nome,
+                valore: false,
+                [nome]: false
+            });
+
+            document.cookie = "username=" + JSON.stringify(persone) + "; expires=Thu, 18 Dec 2024 12:00:00 UTC";
             setTimeout(dopoRitardo, 2500);
             cont=1;
         }else if(codice==persona[i].codice && persona[i].mangiato==true){
