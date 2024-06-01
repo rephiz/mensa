@@ -1,0 +1,30 @@
+.body{
+    background-color: rgb(255, 215, 82);
+}
+
+.search{
+    width: 13vw;
+    height: 2vw;
+    text-decoration: none;
+    background-color: rgb(255, 215, 82);    
+}
+
+.bottone{
+    height: 2.3vw;
+    background-color: rgb(255, 215, 82);
+}
+
+.box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
