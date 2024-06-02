@@ -28,16 +28,6 @@ function dopoRitardo() {
     window.location.href = 'main.html';
 }
 
-function scrivisufile(text){
-    fs.writeFile("boolean.txt", text, (err) => {
-        if (err) {
-          console.error("Si è verificato un errore durante la scrittura su file:", err);
-          return;
-        }
-        console.log("Dati scritti con successo su file.");
-    });
-}
-
 function verde(nomeuser){
     j.style.backgroundColor="green";
     nomeuser.mangiato=true;
@@ -75,23 +65,22 @@ function verifica(){
 
             // Parsing del cookie JSON
             let personeCookie = getCookie('username');
-            let persone = [];
+            let persone = {};
 
             if (personeCookie) {
                 try {
                     persone = JSON.parse(personeCookie);
                 } catch (e) {
                     console.error('Errore nel parsing del cookie JSON:', e);
+                    document.cookie = "username=[]";
                 }
             }
 
             persone.push({
-                nome: persona[i].nome,
-                valore: false,
-                [nome]: false
+                valore: false
             });
 
-            document.cookie = "username=" + JSON.stringify(persone) + "; expires=Thu, 18 Dec 2024 12:00:00 UTC";
+            document.cookie = persona[i].nome+ "=" + JSON.stringify(persone) + "; expires=Thu, 18 Dec 2024 12:00:00 UTC";
             setTimeout(dopoRitardo, 2500);
             cont=1;
         }else if(codice==persona[i].codice && persona[i].mangiato==true){
