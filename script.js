@@ -9,6 +9,10 @@ persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato: 'false'};
 persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato: 'false'};
 persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato: 'false'};
 
+setInterval(function(){
+    num.focus();
+},100);
+
 function setCookie(name, value, expires) {
     let expiresString = "";
     if (expires) {
@@ -27,9 +31,8 @@ function getMidnight() {
     );
     return midnight;
 }
-const expiresAtMidnight = getMidnight();
 
-console.log(expiresAtMidnight);
+const expiresAtMidnight = getMidnight();
 
 document.addEventListener("keydown",invio);
 
@@ -51,7 +54,12 @@ function getCookie(name) {
 }
 
 function dopoRitardo() {
-    window.location.href = 'main.html';
+    j.style.backgroundColor="rgb(255, 215, 82)";
+    nome.textContent = "";
+    sub.textContent = "";
+    num.style.display = "";
+    bottone.style.display = "";
+    insert.style.display = "";
 }
 
 function verde(nomeuser, codice){
