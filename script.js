@@ -22,8 +22,8 @@ function getMidnight() {
     const midnight = new Date(
         now.getFullYear(),
         now.getMonth(),
-        now.getDate() - 1,
-        11, 06, 0, 0
+        now.getDate(),
+        11, 07, 0, 0
     );
     return midnight;
 }
