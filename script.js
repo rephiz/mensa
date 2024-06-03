@@ -32,8 +32,8 @@ function getMidnight() {
 const expiresAtMidnight = getMidnight();
 
 for(var i=0;i<persona.length;i++){
-        var j="";
-        if(persona[i].mangiato=="false"){
+        var j=false;
+        if(persona[i].mangiato==j){
             j="false";
         }else j="true";
         setCookie(persona[i].codice, j, expiresAtMidnight);
