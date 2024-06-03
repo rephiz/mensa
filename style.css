@@ -1,17 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 .body{
     background-color: rgb(255, 215, 82);
 }
 
+#insert{
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 4vw;
+    text-align: center;
+    box-sizing: initial;
+}
+
 .search{
-    width: 13vw;
-    height: 2vw;
+    width: 40vw;
+    height: 4vw;
     text-decoration: none;
-    background-color: rgb(255, 215, 82);    
+    background-color: rgb(255, 215, 82);  
+    font-size: 3vw;  
+    text-align: center;
+    font-weight: 1000;
 }
 
 .bottone{
-    height: 2.3vw;
+    height: 4.3vw;
     background-color: rgb(255, 215, 82);
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    margin-left: 5px;
+    box-sizing: border-box;
 }
 
 .box{
@@ -21,10 +40,29 @@
     transform: translate(-50%, -50%);
 }
 
+.ricerca{
+    display: flex;
+    align-items: center;
+}
+
 .popup{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+#nome{
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 5vw;
+}
+
+#sub{
+    font-family: "Roboto", sans-serif;
+    font-weight: 350;
+    font-style: normal;
+    font-size: 4vw;
 }
