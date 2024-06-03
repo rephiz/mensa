@@ -23,13 +23,13 @@ function getMidnight() {
         now.getFullYear(),
         now.getMonth(),
         now.getDate() - 1,
-        11, 03, 0, 0
+        11, 06, 0, 0
     );
     return midnight;
 }
 const expiresAtMidnight = getMidnight();
 
-console.log(getMidnight());
+console.log(expiresAtMidnight);
 
 document.addEventListener("keydown",invio);
 
