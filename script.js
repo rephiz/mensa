@@ -29,10 +29,10 @@ function getMidnight() {
     return midnight;
 }
 
-const fofin=new Date();
+const expiresAtMidnight = getMidnight();
 
-for(var i=0;i<persona.lenght;i++){
-        setCookie(persona[i].codice, persona[i].mangiato, fofin.getMidnight());
+for(var i=0;i<persona.length;i++){
+        setCookie(persona[i].codice, persona[i].mangiato, expiresAtMidnight);
 }
 
 addEventListener("keydown",invio);
@@ -94,10 +94,12 @@ function verifica(){
             verde(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
+            break;
         }else if(codice==persona[i].codice && persona[i].mangiato==true){
             giallo(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
+            break;
         }
     }
     if(cont==0){
