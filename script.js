@@ -1,4 +1,3 @@
-
 var num = document.getElementById("searchbar") ;
 var bottone = document.getElementById("bottone") ;
 var insert = document.getElementById("insert") ;
@@ -23,8 +22,8 @@ function getMidnight() {
     const midnight = new Date(
         now.getFullYear(),
         now.getMonth(),
-        now.getDate() + 1, // next day
-        0, 0, 0, 0 // set to midnight
+        now.getDate() + 1,
+        0, 0, 0, 0
     );
     return midnight;
 }
@@ -39,7 +38,7 @@ for(var i=0;i<persona.length;i++){
         setCookie(persona[i].codice, k, expiresAtMidnight);
 }
 
-addEventListener("keydown",invio);
+document.addEventListener("keydown",invio);
 
 function invio(event){
     switch(event.key){
@@ -64,7 +63,7 @@ function dopoRitardo() {
 
 function verde(nomeuser){
     j.style.backgroundColor="green";
-    setCookie(nomeuser.codice, 'true', expiresAtMidnight);
+    setCookie(nomeuser.codice, "true", expiresAtMidnight);
     nomeuser.mangiato=true;
     nome.textContent = nomeuser;
     sub.textContent = "pasto registrato!";
