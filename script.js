@@ -31,7 +31,7 @@ function getMidnight() {
 
 const fofin=new Date();
 
-for(for i=0;i<persona.lenght;i++){
+for(var i=0;i<persona.lenght;i++){
         setCookie(persona[i].codice, persona[i].mangiato, fofin.getMidnight());
 }
 
