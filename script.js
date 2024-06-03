@@ -10,6 +10,31 @@ persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato: false};
 persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato: false};
 persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato: false};
 
+function setCookie(name, value, expires) {
+    let expiresString = "";
+    if (expires) {
+        expiresString = "; expires=" + expires.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expiresString + "; path=/";
+}
+
+function getMidnight() {
+    const now = new Date();
+    const midnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1, // next day
+        0, 0, 0, 0 // set to midnight
+    );
+    return midnight;
+}
+
+const fofin=new Date();
+
+for(for i=0;i<persona.lenght;i++){
+        setCookie(persona[i].codice, persona[i].mangiato, fofin.getMidnight());
+}
+
 addEventListener("keydown",invio);
 
 function invio(event){
@@ -67,25 +92,6 @@ function verifica(){
     for(var i=0;i<persona.length;i++){
         if(codice==persona[i].codice && persona[i].mangiato==false){
             verde(persona[i].nome);
-
-            // Parsing del cookie JSON
-            let personeCookie = getCookie('username');
-            let persone = {};
-
-            if (personeCookie) {
-                try {
-                    persone = JSON.parse(personeCookie);
-                } catch (e) {
-                    console.error('Errore nel parsing del cookie JSON:', e);
-                    document.cookie = "username=[]";
-                }
-            }
-
-            persone.push({
-                valore: false
-            });
-
-            document.cookie = persona[i].nome+ "=" + JSON.stringify(persone) + "; expires=Thu, 18 Dec 2024 12:00:00 UTC";
             setTimeout(dopoRitardo, 2500);
             cont=1;
         }else if(codice==persona[i].codice && persona[i].mangiato==true){
