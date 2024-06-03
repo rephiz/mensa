@@ -21,6 +21,17 @@ function setCookie(name, value, expires) {
     document.cookie = name + "=" + value + expiresString + "; path=/";
 }
 
+function changeContent() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     console.log(this.responseText);
+    }
+  };
+  xhttp.open("GET", "https://mail.elesa.com/mensa/test.php?badge=111111", true);
+  xhttp.send();
+}
+
 function getMidnight() {
     const now = new Date();
     const midnight = new Date(
@@ -91,6 +102,7 @@ function rosso(){
 
 function verifica(){
     var cont=0;
+    changeContent();
     var codice = num.value;
     num.value = "";
     for(var i=0;i<persona.length;i++){
