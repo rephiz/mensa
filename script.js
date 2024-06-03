@@ -91,7 +91,7 @@ function verifica(){
             cont=1;
             break;
         }
-        if(getCookie(persona[i].codice)==null && codice==persona[i].codice){
+        if(getCookie(persona[i].codice)==null || getCookie(persona[i].codice)=="false" && codice==persona[i].codice){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
