@@ -6,9 +6,9 @@ var j = document.getElementById("j");
 var nome = document.getElementById("nome") ;
 var sub = document.getElementById("sub") ;
 var persona = new Array();
-persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato: false};
-persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato: false};
-persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato: false};
+persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato:false};
+persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato:false};
+persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato:false};
 
 function setCookie(name, value, expires) {
     let expiresString = "";
