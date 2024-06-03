@@ -95,12 +95,12 @@ function verifica(){
     var codice = num.value;
     num.value = "";
     for(var i=0;i<persona.length;i++){
-        if(codice==persona[i].codice && persona[i].mangiato==false){
+        if(codice==persona[i].codice && persona[i].mangiato=="false"){
             verde(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
-        }else if(codice==persona[i].codice && persona[i].mangiato==true){
+        }else if(codice==persona[i].codice && persona[i].mangiato=="true"){
             giallo(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
