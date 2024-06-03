@@ -22,14 +22,14 @@ function getMidnight() {
     const midnight = new Date(
         now.getFullYear(),
         now.getMonth(),
-        now.getDate(),
-        11, 0, 0, 0
+        now.getDate() - 1,
+        11, 03, 0, 0
     );
     return midnight;
 }
+const expiresAtMidnight = getMidnight();
 
 console.log(getMidnight());
-const expiresAtMidnight = getMidnight();
 
 document.addEventListener("keydown",invio);
 
