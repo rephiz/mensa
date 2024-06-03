@@ -85,7 +85,7 @@ function verifica(){
     var codice = num.value;
     num.value = "";
     for(var i=0;i<persona.length;i++){
-        if(codice==persona[i].codice && getCookie(persona[i].codice)=="false"){
+        if(codice==persona[i].codice){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
