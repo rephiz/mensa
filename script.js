@@ -90,8 +90,7 @@ function verifica(){
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
-        }
-        if(getCookie(persona[i].codice)==null || getCookie(persona[i].codice)=="false" && codice==persona[i].codice){
+        }else if(getCookie(persona[i].codice)==null || getCookie(persona[i].codice)=="false" && codice==persona[i].codice){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
