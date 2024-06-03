@@ -65,7 +65,7 @@ function verde(nomeuser){
     j.style.backgroundColor="green";
     setCookie(nomeuser.codice, "true", expiresAtMidnight);
     nomeuser.mangiato=true;
-    nome.textContent = nomeuser;
+    nome.textContent = nomeuser.nome;
     sub.textContent = "pasto registrato!";
     num.style.display = "none";
     bottone.style.display = "none";
@@ -74,7 +74,7 @@ function verde(nomeuser){
 
 function giallo(nomeuser){
     j.style.backgroundColor="yellow";
-    nome.textContent = nomeuser;
+    nome.textContent = nomeuser.nome;
     sub.textContent = "il tuo pasto è già stato registrato.";
     num.style.display = 'none';
     bottone.style.display = 'none'; 
@@ -95,12 +95,12 @@ function verifica(){
     num.value = "";
     for(var i=0;i<persona.length;i++){
         if(codice==persona[i].codice && persona[i].mangiato=="false"){
-            verde(persona[i].nome);
+            verde(persona[i]);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
         }else if(codice==persona[i].codice && persona[i].mangiato=="true"){
-            giallo(persona[i].nome);
+            giallo(persona[i]);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
