@@ -85,13 +85,14 @@ function verifica(){
     var codice = num.value;
     num.value = "";
     for(var i=0;i<persona.length;i++){
-        if(codice==persona[i].codice){
-            verde(persona[i].nome, persona[i].codice);
+        if(getCookie(persona[i].codice)=="true"){
+            giallo(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
-        }else if(getCookie(persona[i].codice)=="true"){
-            giallo(persona[i].nome);
+        }
+        if(getCookie(persona[i].codice)==-1 && codice==persona[i].codice){
+            verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
