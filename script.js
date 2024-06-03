@@ -64,6 +64,7 @@ function dopoRitardo() {
 
 function verde(nomeuser){
     j.style.backgroundColor="green";
+    setCookie(nomeuser.codice, 'true', expiresAtMidnight);
     nomeuser.mangiato=true;
     nome.textContent = nomeuser;
     sub.textContent = "pasto registrato!";
