@@ -46,7 +46,7 @@ function getCookie(name) {
         while (c.charAt(0) === ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
-    return null;
+    return -1;
 }
 
 function dopoRitardo() {
@@ -85,12 +85,12 @@ function verifica(){
     var codice = num.value;
     num.value = "";
     for(var i=0;i<persona.length;i++){
-        if(codice==persona[i].codice && persona[i].mangiato=="false"){
+        if(codice==persona[i].codice && getCookie(persona[i].codice)=="false"){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
-        }else if(codice==persona[i].codice && persona[i].mangiato=="true"){
+        }else if(codice==persona[i].codice && getCookie(persona[i].codice)=="true"){
             giallo(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
