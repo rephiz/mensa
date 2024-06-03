@@ -61,11 +61,10 @@ function dopoRitardo() {
     window.location.href = 'main.html';
 }
 
-function verde(nomeuser){
+function verde(nomeuser, codice){
     j.style.backgroundColor="green";
-    setCookie(nomeuser.codice, "true", expiresAtMidnight);
-    nomeuser.mangiato=true;
-    nome.textContent = nomeuser.nome;
+    setCookie(codice, "true", expiresAtMidnight);
+    nome.textContent = nomeuser;
     sub.textContent = "pasto registrato!";
     num.style.display = "none";
     bottone.style.display = "none";
@@ -74,7 +73,7 @@ function verde(nomeuser){
 
 function giallo(nomeuser){
     j.style.backgroundColor="yellow";
-    nome.textContent = nomeuser.nome;
+    nome.textContent = nomeuser;
     sub.textContent = "il tuo pasto è già stato registrato.";
     num.style.display = 'none';
     bottone.style.display = 'none'; 
@@ -95,12 +94,12 @@ function verifica(){
     num.value = "";
     for(var i=0;i<persona.length;i++){
         if(codice==persona[i].codice && persona[i].mangiato=="false"){
-            verde(persona[i]);
+            verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
         }else if(codice==persona[i].codice && persona[i].mangiato=="true"){
-            giallo(persona[i]);
+            giallo(persona[i].nome);
             setTimeout(dopoRitardo, 2500);
             cont=1;
             break;
