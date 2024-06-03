@@ -15,7 +15,7 @@ function setCookie(name, value, expires) {
     if (expires) {
         expiresString = "; expires=" + expires.toUTCString();
     }
-    document.cookie = name + "=" + (value || "") + expiresString + "; path=/";
+    document.cookie = name + "=" + value + expiresString + "; path=/";
 }
 
 function getMidnight() {
