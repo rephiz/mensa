@@ -46,7 +46,7 @@ function getCookie(name) {
         while (c.charAt(0) === ' ') c = c.substring(1, c.length);
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
-    return -1;
+    return null;
 }
 
 function dopoRitardo() {
@@ -91,7 +91,7 @@ function verifica(){
             cont=1;
             break;
         }
-        if(getCookie(persona[i].codice)==-1 && codice==persona[i].codice){
+        if(getCookie(persona[i].codice)==null && codice==persona[i].codice){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
             cont=1;
