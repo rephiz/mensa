@@ -23,7 +23,7 @@ function getMidnight() {
         now.getFullYear(),
         now.getMonth(),
         now.getDate() + 1,
-        0, 0, 0, 0
+        10, 51, 0, 0
     );
     return midnight;
 }
