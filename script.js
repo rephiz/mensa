@@ -4,10 +4,6 @@ var insert = document.getElementById("insert") ;
 var j = document.getElementById("j");
 var nome = document.getElementById("nome") ;
 var sub = document.getElementById("sub") ;
-var persona = new Array();
-persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato: 'false'};
-persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato: 'false'};
-persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato: 'false'};
 
 setInterval(function(){ //funzione per il fuoco sulla barra input
     num.focus();
@@ -32,7 +28,7 @@ function changeContent(codice, callback) { //call ajax
     xhttp.send();
   }
 
-function getMidnight() { //per avere la mezzanotte
+function getMidnight() { //per avere la mezzanotte in orario UTC quindi 2 ore in meno rispetto la nostra
     const now = new Date();
     const midnight = new Date(
         now.getFullYear(),
@@ -43,9 +39,9 @@ function getMidnight() { //per avere la mezzanotte
     return midnight;
 }
 
-const expiresAtMidnight = getMidnight(); //variabile contenente la mezzanotte
+const expiresAtMidnight = getMidnight(); //variabile contenente la mezzanotte UTC
 
-document.addEventListener("keydown",invio); //funzione per attivare il bottone anche se si schiaccia invio
+document.addEventListener("keydown",invio); //funzione per attivare il button anche se si schiaccia invio
 function invio(event){
     switch(event.key){
         case "Enter": verifica();
@@ -111,7 +107,6 @@ function rosso(){ //schermata quando l'utente è inesistente
 }
 
 function verifica(){ //quando viene inserito il codice e viene premuto invio, verifica il codice
-    var cont=0;
     var codice = num.value;
     num.value = "";
     changeContent(codice, function(response) {
@@ -129,21 +124,4 @@ function verifica(){ //quando viene inserito il codice e viene premuto invio, ve
             setTimeout(dopoRitardo, 2500);
         }
     });
-   /* for(var i=0;i<persona.length;i++){
-        if(codice==persona[i].codice && (getCookie(persona[i].codice)==null || getCookie(persona[i].codice)=="false")){
-            verde(persona[i].nome, persona[i].codice);
-            setTimeout(dopoRitardo, 2500);
-            cont=1;
-            break;
-        }else if(codice==persona[i].codice && getCookie(persona[i].codice)=="true"){
-            giallo(persona[i].nome);
-            setTimeout(dopoRitardo, 2500);
-            cont=1;
-            break;
-        }
-    }
-    if(cont==0){
-        rosso();
-        setTimeout(dopoRitardo, 2500);
-    }*/
 }
