@@ -9,11 +9,11 @@ persona[0]={nome: 'Reda Lazaar', codice: '500928', mangiato: 'false'};
 persona[1]={nome: 'Alessio Campiti', codice: '111111', mangiato: 'false'};
 persona[2]={nome: 'Mauro Panzeri', codice: '222222', mangiato: 'false'};
 
-setInterval(function(){
+setInterval(function(){ //funzione per il fuoco sulla barra input
     num.focus();
 },100);
 
-function setCookie(name, value, expires) {
+function setCookie(name, value, expires) { //per impostare il cookie
     let expiresString = "";
     if (expires) {
         expiresString = "; expires=" + expires.toUTCString();
@@ -21,18 +21,18 @@ function setCookie(name, value, expires) {
     document.cookie = name + "=" + value + expiresString + "; path=/";
 }
 
-function changeContent() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-     console.log(this.responseText);
-    }
-  };
-  xhttp.open("GET", "https://mail.elesa.com/mensa/test.php?badge=111111", true);
-  xhttp.send();
-}
+function changeContent(codice, callback) { //call ajax
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        callback(this.responseText);
+      }
+    };
+    xhttp.open("GET", "https://corsproxy.io/?https%3A%2F%2Fmail.elesa.com%2Fmensa%2Ftest.php%3Fbadge%3D"+codice, true);
+    xhttp.send();
+  }
 
-function getMidnight() {
+function getMidnight() { //per avere la mezzanotte
     const now = new Date();
     const midnight = new Date(
         now.getFullYear(),
@@ -43,17 +43,16 @@ function getMidnight() {
     return midnight;
 }
 
-const expiresAtMidnight = getMidnight();
+const expiresAtMidnight = getMidnight(); //variabile contenente la mezzanotte
 
-document.addEventListener("keydown",invio);
-
+document.addEventListener("keydown",invio); //funzione per attivare il bottone anche se si schiaccia invio
 function invio(event){
     switch(event.key){
         case "Enter": verifica();
     }
 }
 
-function getCookie(name) {
+function getCookie(name) { //prendo il valore del cookie
     let nameEQ = name + "=";
     let ca = document.cookie.split(';');
     for(let i=0; i < ca.length; i++) {
@@ -64,7 +63,18 @@ function getCookie(name) {
     return null;
 }
 
-function dopoRitardo() {
+function trovacodice(name) { //vedo se un codice è già presente fra i cookie
+    let nameEQ = name + "=";
+    let ca = document.cookie.split(';');
+    for(let i=0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if((c.substring(0,nameEQ.length)) == nameEQ) return true;
+    }
+    return null;
+}
+
+function dopoRitardo() { //faccio tornare la pagina standard
     j.style.backgroundColor="rgb(255, 215, 82)";
     nome.textContent = "";
     sub.textContent = "";
@@ -73,7 +83,7 @@ function dopoRitardo() {
     insert.style.display = "";
 }
 
-function verde(nomeuser, codice){
+function verde(nomeuser, codice){ //schermata quando viene registrato il pasto di un utente
     j.style.backgroundColor="green";
     setCookie(codice, "true", expiresAtMidnight);
     nome.textContent = nomeuser;
@@ -83,7 +93,7 @@ function verde(nomeuser, codice){
     insert.style.display = "none";
 }
 
-function giallo(nomeuser){
+function giallo(nomeuser){ //schermata quando il pasto di un utente è già stato registrato
     j.style.backgroundColor="yellow";
     nome.textContent = nomeuser;
     sub.textContent = "il tuo pasto è già stato registrato.";
@@ -92,7 +102,7 @@ function giallo(nomeuser){
     insert.style.display = 'none';
 }
 
-function rosso(){
+function rosso(){ //schermata quando l'utente è inesistente
     j.style.backgroundColor="red";
     nome.textContent = "utente non esistente";
     num.style.display = 'none';
@@ -100,12 +110,26 @@ function rosso(){
     insert.style.display = 'none';
 }
 
-function verifica(){
+function verifica(){ //quando viene inserito il codice e viene premuto invio, verifica il codice
     var cont=0;
-    changeContent();
     var codice = num.value;
     num.value = "";
-    for(var i=0;i<persona.length;i++){
+    changeContent(codice, function(response) {
+        var jj=response.substring(0,1);
+        if(jj!="#"){
+            if(trovacodice(codice)==true && getCookie(codice)=="true"){
+                giallo(response);
+                setTimeout(dopoRitardo, 2500);
+            }else if(trovacodice(codice)==null || (trovacodice(codice)==true && getCookie(codice)=="false")){
+                verde(response, codice);
+                setTimeout(dopoRitardo, 2500);
+            }
+        }else{
+            rosso();
+            setTimeout(dopoRitardo, 2500);
+        }
+    });
+   /* for(var i=0;i<persona.length;i++){
         if(codice==persona[i].codice && (getCookie(persona[i].codice)==null || getCookie(persona[i].codice)=="false")){
             verde(persona[i].nome, persona[i].codice);
             setTimeout(dopoRitardo, 2500);
@@ -121,5 +145,5 @@ function verifica(){
     if(cont==0){
         rosso();
         setTimeout(dopoRitardo, 2500);
-    }
+    }*/
 }
