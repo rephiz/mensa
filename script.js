@@ -5,12 +5,112 @@ var j = document.getElementById("j");
 var nome = document.getElementById("nome") ;
 var sub = document.getElementById("sub") ;
 var wifi = document.getElementById("wifi") ;
-//aa
-setInterval(function(){ //funzione per il fuoco sulla barra input
-    num.focus();
-},100);
+var ospiti = document.getElementById("ospiti");
+var piu = document.getElementById("piu");
+var meno = document.getElementById("meno");
 
-function setCookie(name, value, expires) { //per impostare il cookie
+togli();
+
+setInterval(function(){
+    num.focus();
+},200);
+
+var rosg = false;
+var clicked = false;
+var personaatt="";
+var inserizione = false;
+var contospiti=0;
+var tempname = "";
+var minusco = false;
+
+function togli(){
+    ospiti.style.display = "none";
+    piu.style.display = "none";
+    meno.style.display = "none";
+}
+
+function mostra(){
+    if(inserizione==true){
+        if(clicked==true){
+            if(rosg==false){
+                ospiti.style.display = "";
+                piu.style.display = "";
+                meno.style.display = "";
+            }
+        }
+    }
+    
+}
+
+var ret="";
+
+function piuu(code){
+    if(inserizione==true){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var og = this.responseText.substring(0,1);
+                if(og == "#"){
+                    ret = this.responseText;
+                    minusco = false;
+                    piu.style.display = "none";
+                    meno.style.display = "none";
+                    rossoguest(this.responseText);
+                    setTimeout(dopoRitardo, 3500);
+                }else{
+                    contospiti++;
+                    ospiti.textContent = "OSPITI UTENTE " + tempname + ": "  + contospiti;
+                    minusco = true;
+                }
+            }else if (this.readyState == 4 && this.status != 200) st("errore");
+        };
+        xhttp.open("GET", "webservice.php?badge="+code+"&data_ins="+oggis+"&osp=piu", true);
+        xhttp.send();
+    }
+}
+
+function menoo(code){
+    if(inserizione==true){
+        if(minusco==true){
+            if(contospiti>0) contospiti--;
+            ospiti.textContent = "OSPITI UTENTE " + tempname + ": "  + contospiti;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                }
+            }
+            xhttp.open("GET", "webservice.php?badge="+code+"&data_ins="+oggis+"&osp=meno", true);
+            xhttp.send();
+        }
+    }
+}
+
+
+function piuuint(code, expires){
+    contospiti++;
+    if(inserizione==true){
+        let expiresString = "";
+        if (expires) {
+            expiresString = "; expires=" + expires.toUTCString();
+        }
+        document.cookie = code + "=" + JSON.stringify({val: 'true', ospiti: contospiti}) + expiresString + "; path=/";
+    }
+}
+
+function menooint(code, expires){
+    if(contospiti>0) contospiti--;
+    if(inserizione==true){
+        let expiresString = "";
+        if (expires) {
+            expiresString = "; expires=" + expires.toUTCString();
+        }
+        document.cookie = code + "=" + JSON.stringify({val: 'true', ospiti: contospiti}) + expiresString + "; path=/";
+    }
+}
+
+
+function setCookie(name, value, expires) {
     let expiresString = "";
     if (expires) {
         expiresString = "; expires=" + expires.toUTCString();
@@ -18,18 +118,26 @@ function setCookie(name, value, expires) { //per impostare il cookie
     document.cookie = name + "=" + value + expiresString + "; path=/";
 }
 
-function changeContent(codice, callback) { //call ajax
+const og = new Date();
+var oggis="";
+var giorno = "";
+var mese = "";
+if(og.getDate()<10) giorno = giorno + "0" + og.getDate();
+if(og.getMonth()<10) mese = mese + "0" + (og.getMonth()+1);
+oggis= oggis + og.getFullYear() + mese + giorno;
+
+function changeContent(codice, callback) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         callback(this.responseText);
-      }else if(this.readyState == 4 && this.status != 200) callback("errore");
+      }else if (this.readyState == 4 && this.status != 200) callback("errore");
     };
-    xhttp.open("GET", "https://mail.elesa.com/mensa/webservice.php?badge="+codice, true);
+    xhttp.open("GET", "webservice.php?badge="+codice+"&data_ins="+oggis, true);
     xhttp.send();
-  }
+}
 
-function getMidnight() { //per avere la mezzanotte in orario UTC quindi 2 ore in meno rispetto la nostra
+function getMidnight() {
     const now = new Date();
     const midnight = new Date(
         now.getFullYear(),
@@ -40,27 +148,57 @@ function getMidnight() { //per avere la mezzanotte in orario UTC quindi 2 ore in
     return midnight;
 }
 
-const expiresAtMidnight = getMidnight(); //variabile contenente la mezzanotte UTC
+const expiresAtMidnight = getMidnight();
 
-document.addEventListener("keydown",invio); //funzione per attivare il button anche se si schiaccia invio
+document.addEventListener("keydown",invio);
 function invio(event){
-    switch(event.key){
-        case "Enter": verifica();
+    if (document.activeElement == num) {
+        switch(event.key){
+            case "Enter": 
+                verifica();
+                break;
+            case "+":
+                event.preventDefault();
+                clicked=true;
+                if (rosg == false) {
+                    if (trovacodice("err" + personaatt)) {
+                        piuuint("err"+personaatt, expiresAtMidnight);
+                    } else {
+                        piuu(personaatt);
+                    }
+                }
+                break;
+            case "-": 
+                event.preventDefault();
+                clicked=true;
+                if (rosg == false) {
+                    if(trovacodice("err"+personaatt)){
+                        menooint("err"+personaatt, expiresAtMidnight);
+                    } else {
+                        menoo(personaatt);
+                    }
+                }
+                break;
+            case "e":
+            case ".":
+            case ",":
+                event.preventDefault();
+                break;
+        }
     }
 }
 
-function getCookie(name) { //prendo il valore del cookie
+function getCookie(name) {
     let nameEQ = name + "=";
     let ca = document.cookie.split(';');
     for(let i=0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        let c = ca[i].trim();
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
 
-function trovacodice(name) { //vedo se un codice è già presente fra i cookie
+function trovacodice(name) {
     let nameEQ = name + "=";
     let ca = document.cookie.split(';');
     for(let i=0; i < ca.length; i++) {
@@ -73,7 +211,7 @@ function trovacodice(name) { //vedo se un codice è già presente fra i cookie
     return false;
 }
 
-function dopoRitardo() { //faccio tornare la pagina standard
+function dopoRitardo() {
     j.style.backgroundColor="rgb(255, 215, 82)";
     nome.textContent = "";
     sub.textContent = "";
@@ -81,9 +219,16 @@ function dopoRitardo() { //faccio tornare la pagina standard
     bottone.style.display = "";
     insert.style.display = "";
     wifi.style.display = "none";
+    if(inserizione==true){
+        mostra();
+    }
+    if(inserizione==false){
+        togli();
+        clicked=false;
+    }
 }
 
-function verde(nomeuser, codice){ //schermata quando viene registrato il pasto di un utente
+function verde(nomeuser, codice){
     j.style.backgroundColor="green";
     setCookie(codice, "true", expiresAtMidnight);
     nome.textContent = nomeuser;
@@ -93,9 +238,13 @@ function verde(nomeuser, codice){ //schermata quando viene registrato il pasto d
     bottone.style.display = "none";
     insert.style.display = "none";
     wifi.style.display = "none";
+    togli();
+    clicked=false;
+    inserizione=true;
+    personaatt=codice;
 }
 
-function giallo(nomeuser){ //schermata quando il pasto di un utente è già stato registrato
+function giallo(nomeuser){
     j.style.backgroundColor="yellow";
     nome.textContent = nomeuser;
     sub.style.color = "rgb(0, 110, 255)";
@@ -104,14 +253,34 @@ function giallo(nomeuser){ //schermata quando il pasto di un utente è già stat
     bottone.style.display = 'none'; 
     insert.style.display = 'none';
     wifi.style.display = "none";
+    togli();
+    clicked=false;
+    inserizione=false;
+    personaatt="";
 }
 
-function rosso(){ //schermata quando l'utente è inesistente
+function rosso(){
     j.style.backgroundColor="red";
     nome.textContent = "utente non esistente";
     num.style.display = 'none';
     bottone.style.display = 'none';
     insert.style.display = 'none';
+    togli();
+    clicked=false;
+    inserizione=false;
+    personaatt="";
+}
+
+function rossoguest(stampa){
+    j.style.backgroundColor="red";
+    nome.textContent = stampa;
+    num.style.display = 'none';
+    bottone.style.display = 'none';
+    insert.style.display = 'none';
+    clicked=false;
+    inserizione=false;
+    personaatt="";
+    ospiti.textContent = "";
 }
 
 function errore(codice){
@@ -124,38 +293,102 @@ function errore(codice){
     bottone.style.display = "none";
     insert.style.display = "none";
     wifi.style.display = "inline";
+    togli();
+    clicked=false;
+    inserizione=true;
+    personaatt=codice;
 }
 
-function verifica(){ //quando viene inserito il codice e viene premuto invio, verifica il codice
+function verifica(){
     if(num.value != ""){
         var codice = num.value;
         num.value = "";
         changeContent(codice, function(response) {
             if(response=="errore"){
-                if(trovacodice(codice)==false && trovacodice("err"+codice)==false){
-                    errore(codice);
+                if(codice=="7654321"){
+                    console.log("anto");
+                    j.style.backgroundColor="yellow";
+                    wifi.style.display = "inline";
+                    nome.textContent = "";
+                    sub.textContent = "";
+                    bottone.style.display = "none";
+                    insert.style.display = "none";
+                    num.style.display = "none";
+                    contospiti=0;
+                    tempname = "";
+                    inserizione=false;
+                    personaatt="";
+                    togli();
+                    clicked=false;
                     setTimeout(dopoRitardo, 3500);
-                }else if((trovacodice(codice)==true || trovacodice("err"+codice)==true) && (getCookie(codice)=="true" || getCookie("err"+codice)=="true")){
+                }
+                if(trovacodice(codice)==false && trovacodice("err"+codice)==false && codice!="7654321"){
+                    errore(codice);
+                    contospiti=0;
+                    tempname=codice;
+                    rosg=false;
+                    setTimeout(dopoRitardo, 3500);
+                }else if((trovacodice(codice)==true || trovacodice("err"+codice)==true) && (getCookie(codice)=="true" || getCookie("err"+codice)=="true") && codice!="7654321"){
                     giallo(codice);
+                    contospiti=0;
+                    tempname = "";
+                    rosg=true;
                     wifi.style.display = "inline";
                     setTimeout(dopoRitardo, 3500);
                 }
             }
             if(response!="errore"){
                 var jj=response.substring(0,1);
-                if(jj!="#"){
-                    if(trovacodice(codice)==true && getCookie(codice)=="true"){
-                        giallo(response);
-                        setTimeout(dopoRitardo, 3500);
-                    }else if(trovacodice(codice)==false || (trovacodice(codice)==true && getCookie(codice)=="false")){
-                        verde(response, codice);
-                        setTimeout(dopoRitardo, 3500);
-                    }
-                }else if(jj=="#"){
+                if((jj=="!") || (trovacodice(codice)==true && getCookie(codice)=="true" || trovacodice("err"+codice)==true && getCookie("err"+codice)=="true")){
+                    giallo(response);
+                    contospiti=0;
+                    tempname = "";
+                    sub.textContent = "";
+                    rosg=true;
+                    setTimeout(dopoRitardo, 3500);
+                }
+                if((jj!="#") && (jj!="!") && (trovacodice(codice)==false && trovacodice("err"+codice)==false) || (trovacodice(codice)==true && getCookie(codice)=="false") || (trovacodice("err"+codice)==true && getCookie("err"+codice)=="false")){
+                    verde(response, codice);
+                    contospiti=0;
+                    tempname=response;
+                    rosg=false;
+                    setTimeout(dopoRitardo, 3500);
+                }
+                if(jj=="#"){
                     rosso();
+                    tempname = "";
+                    contospiti=0;
+                    rosg=true;
                     setTimeout(dopoRitardo, 3500);
                 }
             }
         });
     }
 }
+
+function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+}
+
+setInterval(function(){ 
+    let err = "err";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.startsWith(err)) {
+            let codice = c.split('=')[0].substring(err.length);
+            changeContent(codice, function (response) {
+                    if(response!="errore"){
+                        var jj=response.substring(0,1);
+                        if((jj!="#") && (jj!="!")){
+                            deleteCookie("err"+codice);
+                            setCookie(codice,"true", expiresAtMidnight);
+                        }
+                        if(jj=="#"){
+                            deleteCookie("err"+codice);
+                        }
+                    }
+                });
+            }
+        }
+    },60000);
