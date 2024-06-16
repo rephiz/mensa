@@ -73,3 +73,21 @@
     margin-top: 3vw;
     display: none;
 }
+
+.piumeno{
+    height: 1.5vw;
+    width: 1.5vw;
+    background-color: rgb(255, 215, 82);
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    box-sizing: border-box;
+}
+.guests{
+    text-align: center;
+    margin-top: 10vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+}
